@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home - Shopping Experience</title>
+<!-- Add Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<style>
+    .category-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .category-link {
+        text-decoration: none !important;
+        color: inherit;
+    }
+    .category-img-container {
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        border-radius: 15px 15px 0 0;
+    }
+    .product-card {
+        transition: transform 0.3s;
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 100%;
+    }
+    .product-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    .product-img-container {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        padding: 15px;
+    }
+    .section-title {
+        position: relative;
+        margin-bottom: 2rem;
+        font-weight: 700;
+    }
+    .section-title:after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: #0d6efd;
+        margin: 10px auto;
+    }
+    .promo-banner {
+        background: linear-gradient(45deg, #6c5ce7, #0d6efd);
+        border-radius: 15px;
+        color: white;
+        padding: 3rem 2rem;
+        margin: 4rem 0;
+    }
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        padding: 20px;
+    }
+    /* Updated styles for centering content */
+    .category-card .card-body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-height: 80px;
+    }
+    .product-card .card-body {
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+	<section>
+		<!-- Start Slider  -->
+		<div id="mainCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+			<div class="carousel-indicators">
+				<button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+				<button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+				<button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+			</div>
+			<div class="carousel-inner rounded-3">
+				<div class="carousel-item active" data-bs-interval="5000">
+					<img src="img/slider1.jpg" class="d-block w-100" alt="Shopping Experience"
+						style="height: 550px; object-fit: cover;">
+					<div class="carousel-caption d-none d-md-block">
+					    <h2 class="display-4 fw-bold">Welcome To Shopping!</h2>
+					    <p class="fs-5">Discover amazing products at unbeatable prices.</p>
+					    <a href="/products" class="btn btn-primary btn-lg mt-3">Shop Now</a>
+					</div>
+				</div>
+				<div class="carousel-item" data-bs-interval="5000">
+					<img src="img/slider2.jpg" class="d-block w-100" alt="Shopping Experience"
+						style="height: 550px; object-fit: cover;">
+					<div class="carousel-caption d-none d-md-block">
+					    <h2 class="display-4 fw-bold">New Season Arrivals</h2>
+					    <p class="fs-5">Check out our latest collection just for you.</p>
+					    <a href="/products" class="btn btn-outline-light btn-lg mt-3">Explore</a>
+					</div>
+				</div>
+				<div class="carousel-item" data-bs-interval="5000">
+					<img src="img/slider3.jpg" class="d-block w-100" alt="Shopping Experience"
+						style="height: 550px; object-fit: cover;">
+					<div class="carousel-caption d-none d-md-block">
+					    <h2 class="display-4 fw-bold">Special Discounts</h2>
+					    <p class="fs-5">Limited time offers on premium products.</p>
+						<a href="/products" class="btn btn-primary btn-lg mt-3">View Deals</a>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev" type="button"
+				data-bs-target="#mainCarousel" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button"
+				data-bs-target="#mainCarousel" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+		<!-- End Slider  -->
+
+		<!-- Start Category Module -->
+		<div class="container py-5">
+			<h2 class="text-center section-title">Shop By Category</h2>
+			<div class="row g-4">
+				<div class="col-6 col-md-3 col-lg-2" th:each="c:${category}">
+					<a th:href="@{'/products?category='+${c.name}}" class="category-link">
+						<div class="category-card card h-100 shadow-sm">
+							<div class="category-img-container">
+								<img th:src="@{'img/category_img/'+${c.imageName}}" class="img-fluid" alt="[[${c.name}]]" style="max-height: 140px; width: 100%; object-fit: contain;">
+							</div>
+							<div class="card-body text-center p-3">
+								<h5 class="card-title mb-0">[[${c.name}]]</h5>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- End Category Module -->
+
+		<!-- Promotional Banner -->
+		<div class="container">
+			<div class="promo-banner text-center">
+				<div class="row align-items-center justify-content-center">
+					<div class="col-md-8">
+						<h2 class="display-5 fw-bold">Summer Sale</h2>
+						<p class="fs-5">Up to 50% off on selected items. Limited time offer!</p>		
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Start Latest Product Module -->
+		<div class="container-fluid bg-light py-5">
+			<div class="container">
+				<h2 class="text-center section-title">Latest Products</h2>
+				<div class="row g-4">
+					<div class="col-md-6 col-lg-3" th:each="p:${products}">
+						<div class="product-card card h-100 shadow-sm">
+							<div class="product-img-container">
+								<img alt="[[${p.title}]]" th:src="@{'img/product_img/'+${p.image}}" class="img-fluid" style="max-height: 170px; width: 100%; object-fit: contain;">
+							</div>
+							<div class="card-body">
+								<h5 class="card-title text-center"><a th:href="@{'/product/'+${p.id}}" class="text-decoration-none text-dark">[[${p.title}]]</a></h5>
+								<!-- You can add price and other product details here -->
+							</div>
+							<div class="card-footer bg-transparent border-0">
+								<a th:href="@{'/product/'+${p.id}}" class="btn btn-primary w-100">View Details</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="text-center mt-5">
+				    <a href="/products" class="btn btn-outline-primary">View All Products</a>
+				</div>
+			</div>
+		</div>
+		<!-- End Latest Product Module -->
+	</section>
+</body>
+</html>
